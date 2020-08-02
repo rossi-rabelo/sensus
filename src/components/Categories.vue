@@ -1,13 +1,15 @@
 <template>
-  <q-list class="">
+  <q-list style="border-radius: 30px;" class="q-pa-md">
     <q-expansion-item
       v-for="category in categories"
       :key="category.name"
       @click="selectCategory(category)"
-      :expand-icon-class="category.subCategories.length === 0 ? 'hideExpandIcon' : '' "
+      :expand-icon-class="category.subCategories.length === 0 ? 'hideExpandIcon' : 'expandIcon' "
       :label="category.name"
+      style="border-radius: 30px; color: white"
+      class="item-category q-mb-md text-bold text-subtitle1 shadow-1 overflow-hidden"
     >
-      <q-list v-if="category.subCategories.length > 0" separator>
+      <q-list style="border-radius: 30px;" v-if="category.subCategories.length > 0">
         <q-expansion-item
           v-for="subCategory in category.subCategories"
           :key="subCategory.name"
@@ -54,6 +56,7 @@ export default {
   methods: {
     selectCategory (category) {
       if (!category.subCategories || category.subCategories.length === 0) {
+        this.$router.push('products')
         console.log('mandar pro vuex -> ', category)
       }
     }
@@ -65,6 +68,9 @@ export default {
   .hideExpandIcon
     display none
 
-  .subList
-    background rgba(87,0,87,.3)
+  .item-category
+    background-color rgba(87,0,87,.93)
+
+  .expandIcon
+    color white
 </style>

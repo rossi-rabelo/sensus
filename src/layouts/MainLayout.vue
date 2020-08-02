@@ -8,7 +8,7 @@
             <!-- <q-avatar>
               <img src="https://cdn.quasar.dev/logo/svg/quasar-logo.svg">
             </q-avatar> -->
-            <span style="padding-top: 0.3%; cursor: pointer">
+            <span style="padding-top: 0.5%; cursor: pointer" @click="goToHome">
               <img src="../statics/logo-header.png" height="80%" alt="">
             </span>
           <div style="width: 30px"></div>
@@ -32,8 +32,8 @@
       </div>
     </q-drawer>
 
-    <q-page-container>
-      <router-view />
+    <q-page-container @click="closeDrawer">
+      <router-view/>
     </q-page-container>
 
   </q-layout>
@@ -41,13 +41,46 @@
 
 <script>
 import categories from 'components/Categories'
+import { ROUTES } from '../statics/routes'
 export default {
   components: {
     categories
   },
+  created () {
+    if (this.$route.name === ROUTES.HOME) {
+      this.left = true
+    }
+  },
+  watch: {
+    routeName: function () {
+      console.log(this.routeName === ROUTES.HOME)
+      if (this.routeName === ROUTES.HOME) {
+        setTimeout(() => {
+          this.left = true
+        }, 1000)
+      }
+    }
+  },
+  computed: {
+    routeName: function () {
+      return this.$route.name
+    }
+  },
   data () {
     return {
-      left: true
+      left: false
+    }
+  },
+  methods: {
+    closeDrawer () {
+      if (this.left) {
+        this.left = false
+      }
+    },
+    goToHome () {
+      if (this.routeName !== ROUTES.HOME) {
+        this.$router.push('/')
+      }
     }
   }
 }
@@ -58,5 +91,5 @@ export default {
     background-image url("../statics/bg-side.png")
 
   .rgbaFilter
-    background-color rgba(0,0,0,.3)
+    background-color rgba(0,0,0,.4)
 </style>
