@@ -19,7 +19,6 @@ module.exports = function (/* ctx */) {
     // --> boot files are part of "main.js"
     // https://quasar.dev/quasar-cli/boot-files
     boot: [
-
       'axios'
     ],
 
@@ -99,7 +98,25 @@ module.exports = function (/* ctx */) {
       // directives: [],
 
       // Quasar plugins
-      plugins: []
+      plugins: [
+        'LocalStorage',
+        'SessionStorage',
+        'Notify',
+        'Loading'
+      ],
+      config: {
+        notify: {
+          color: 'negative',
+          textColor: 'grey-2',
+          icon: 'fas fa-exclamation-circle',
+          position: 'top',
+          badgeColor: 'grey-9',
+          badgeTextColor: 'grey-2',
+          badgePosition: 'top-right',
+          classes: 'text-style-2 align-icon text-center q-py-xs q-px-md',
+          timeout: 3000
+        }
+      }
     },
 
     // animations: 'all', // --- includes all animations

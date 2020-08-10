@@ -85,7 +85,9 @@ export default {
 
     created () {
         if (this.$route.name === ROUTES.HOME) {
-            this.left = true
+            setTimeout(() => {
+                this.left = true
+            }, 1000)
         }
     },
 

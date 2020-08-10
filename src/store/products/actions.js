@@ -1,3 +1,1 @@
-export function changeProducts (context) {
-  context.commit('changeProductsList')
-}
+/* eslint indent: [2, 4] */

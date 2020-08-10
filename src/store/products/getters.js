@@ -1,2 +1,1 @@
-export function someGetter (/* state */) {
-}
+/* eslint indent: [2, 4] */
