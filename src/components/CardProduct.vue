@@ -1,30 +1,90 @@
 <template>
-  <q-card class="my-card" style="cursor: pointer" @click="selectProduct">
-    <q-img
-      :src="product.images[0]"
-      basic
-    >
-      <div class="absolute-bottom text-h6">
-        {{ product.name }}
-      </div>
-    </q-img>
+  <div class="col-xs-12 col-sm-6 col-md-4 q-my-md q-px-sm">
+        <q-card class="no-border-radius">
+            <q-card-section v-ripple class="q-py-xs q-px-sm">
+                <!-- PROMOTION -->
+                <div class="absolute-top" style="top: -18px" v-if="product.promotion">
+                    <q-badge color="secondary" align="top" class="text-style-0 no-border-radius shadow-2" >Promoção</q-badge>
+                </div>
+                <div class="row full-width items-center">
+                    <div class="col-grow">
+                        <!-- NAME -->
+                        <div class="full-width text-style-3">
+                            {{ product.name }}
+                        </div>
 
-    <q-card-section>
-      <div class="row full-width">
-        <div class="col">
-          <div class="row justify-center text-positive text-bold text-subtitle1">R$ {{ product.price.money }}</div>
-          <div class="row justify-center">Dinheiro</div>
-        </div>
-        <div class="col">
-          <div class="row justify-center text-positive text-bold text-subtitle1">R$ {{ product.price.card }}</div>
-          <div class="row justify-center">Cartão</div>
-        </div>
-      </div>
-    </q-card-section>
-  </q-card>
+                        <!--  PURVEYOR AND CODE -->
+                        <div class="full-width text-style-1 text-grey-9">
+                            {{ product.purveyor + ' - ' + product.purveyor_code }}
+                        </div>
+                    </div>
+
+                    <!-- PRICES -->
+                    <div class="col-auto text-style-1">
+                        <div class="full-width text-strike text-red" v-if="product.show_old_price">
+                            {{ applyMoneyMask(product.old_price, false) }}
+                        </div>
+                    </div>
+                </div>
+
+            </q-card-section>
+
+            <!-- IMAGES -->
+            <q-carousel v-model="product.carousel" swipeable animated infinite height="200px" class="q-pl-lg">
+                <q-carousel-slide v-if="!product.carousel" :name="0" class="q-pa-none">
+                    <q-skeleton square animation="wave" height="200px" style="width: calc(100% - 45px); margin-left: 40px" />
+                </q-carousel-slide>
+
+                <q-carousel-slide
+                    v-ripple
+                    v-for="image in product.myImages"
+                    :key="image.id"
+                    :name="image.id"
+                    class="no-wrap no-scroll q-pa-none" >
+                    <q-img :src="image.src" contain style="height: 200px; cursor: pointer" @click="selectProduct()"/>
+                </q-carousel-slide>
+
+                <template v-slot:control>
+                    <q-carousel-control
+                        position="top-left"
+                        :offset="[0, 0]"
+                        class="rounded-borders"
+                        :style="`width: 60px; height: 200px`">
+
+                        <div v-if="product.skeleton">
+                            <q-skeleton v-for="i in [1, 2, 3, 4, 5]" :key="i" tag="div" type="rect" animation="wave" class="q-ma-xs" style="width 50px; height: 35px" />
+                        </div>
+
+                        <q-tabs v-model="product.carousel" vertical active-color="indigo" switch-indicator dense>
+                            <q-tab v-for="image in product.myImages" :key="image.id" :name="image.id" style="padding: 0px">
+                                <q-avatar square size="50px" style="height: 35px" color="white">
+                                    <q-img :src="image.src" contain spinner-color="indigo" @load="product.skeleton = false" style="height: 35px;" />
+                                </q-avatar>
+                            </q-tab>
+                        </q-tabs>
+                    </q-carousel-control>
+                </template>
+            </q-carousel>
+            <q-card-section>
+                <div class="row full-width justify-between">
+                    <div class="col row justify-center">
+                        <span class="text-positive text-bold q-mr-xs">Dinheiro:</span>
+                        {{ applyMoneyMask(product.price_money, false) }}
+                    </div>
+                    <div class="col row justify-center">
+                        <span class="text-positive text-bold q-mr-xs">Cartão:</span>
+                        {{ applyMoneyMask(product.price_card, false) }}
+                    </div>
+                </div>
+            </q-card-section>
+        </q-card>
+    </div>
 </template>
 
 <script>
+// AUXILIAR FUNCTIONS
+import { applyMoneyMask } from 'src/functions/number'
+
 export default {
   name: 'CardProduct',
   props: {
@@ -37,6 +97,7 @@ export default {
     return {}
   },
   methods: {
+    applyMoneyMask,
     selectProduct () {
       this.$emit('selectProduct', this.product)
     }

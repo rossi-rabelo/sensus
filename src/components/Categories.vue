@@ -21,14 +21,15 @@
         <q-expansion-item
             v-for="category in categories"
             :key="category.name"
+            dense
             @click="selectCategory(category)"
             :expand-icon-class="(category.features && category.features.length === 0) ? 'hideExpandIcon' : 'expandIcon' "
-            style="border-radius: 30px; color: white"
+            style="border-radius: 20px; color: white"
             class="item-category q-mb-md text-subtitle1 shadow-1 overflow-hidden" >
 
             <!-- HEADER -->
             <template v-slot:header>
-                <div class="categoryName" style="width: 100%; padding-top: 3px">
+                <div class="categoryName" style="width: 100%; padding: 5px;">
                     {{ category.name }}
                 </div>
             </template>

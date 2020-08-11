@@ -31,9 +31,11 @@
         <!-- DRAWER -->
         <q-drawer v-model="left" side="left">
             <div class="bg-yellow fit">
-                <div class="sideDrawer fit">
-                    <div class="rgbaFilter fit">
-                        <my-categories />
+                <div class="sideDrawer no-scroll fit">
+                    <div class="rgbaFilter scroll fit" style="overflow: hidden">
+                        <q-scroll-area class="fit">
+                            <my-categories />
+                        </q-scroll-area>
                     </div>
                 </div>
             </div>
@@ -49,17 +51,31 @@
             <q-toolbar>
                 <q-toolbar-title class="row full-width items-center justify-center">
                     <!-- WHATSAPP -->
-                    <div class="col-auto q-px-sm">
+                    <div class="col-auto q-px-sm desktop-only">
                         <q-icon name="fab fa-whatsapp" color="primary" size="25px"/>
                         <span class="text-bold text-primary text-subtitle2">
                             (34) 9 9680-6896
                         </span>
                     </div>
 
+                    <div class="col-6 q-px-sm mobile-only">
+                        <q-icon name="fab fa-whatsapp" color="primary" size="20px"/>
+                        <span class="text-bold text-primary text-caption">
+                            (34) 9 9680-6896
+                        </span>
+                    </div>
+
                     <!-- INSTAGRAM -->
-                    <div class="col-auto q-px-sm">
+                    <div class="col-auto q-px-sm desktop-only">
                         <q-icon name="fab fa-instagram" color="primary" size="25px"/>
                         <span class="text-bold text-primary text-subtitle1">
+                            @sensus.official
+                        </span>
+                    </div>
+
+                    <div class="col-6 q-px-sm mobile-only">
+                        <q-icon name="fab fa-instagram" color="primary" size="20px"/>
+                        <span class="text-bold text-primary text-caption">
                             @sensus.official
                         </span>
                     </div>
@@ -134,6 +150,7 @@ export default {
 <style lang="stylus">
     .sideDrawer
         background-image url("/logos/bg-side.png")
+        background-repeat no-repeat
 
     .rgbaFilter
         background-color rgba(0,0,0,.4)
