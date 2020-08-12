@@ -6,6 +6,10 @@ export function changeCount (state, count) {
     state.count = count
 }
 
+export function changePage (state, page) {
+    state.page = page
+}
+
 export function changeEPP (state, epp) {
     state.epp = epp
 }

@@ -12,7 +12,7 @@
                 label="Pesquisar Produto"
             >
                 <template v-slot:append>
-                    <q-btn color="positive" size="sm" @click="searchProducts" icon="fas fa-search" round/>
+                    <q-btn color="positive" :disable="searchQuery.length === 0" size="sm" @click="searchProducts" icon="fas fa-search" round/>
                 </template>
             </q-input>
         </div>
@@ -36,6 +36,20 @@
 
             <!-- SUBCATEGORIES -->
             <q-list style="border-radius: 30px;" v-if="(category.features && category.features.length) > 0">
+                <q-expansion-item
+                    :header-inset-level="1"
+                    expand-icon-class="hideExpandIcon"
+                    expand-separator
+                    class="subList"
+                    label="Todos"
+                    @click="selectCategory(category, true)" >
+
+                    <template v-slot:header>
+                        <div class="categoryName" style="width: 100%; padding-top: 3px">
+                            Todos
+                        </div>
+                    </template>
+                </q-expansion-item>
                 <q-expansion-item
                     v-for="subCategory in category.features"
                     :key="subCategory.name"
@@ -83,13 +97,16 @@ export default {
     },
 
     methods: {
-        selectCategory (category) {
+        selectCategory (category, force) {
             // EMIT IF ONLY IS ROOT CATEGORY
-            if (!category.features || (category.features && category.features.length === 0)) {
+            if (force || (!category.features || (category.features && category.features.length === 0))) {
                 // ENVIAR VUEX
                 this.$store.commit('products/changeCategory', category.id)
-
+                this.checkPlatform()
                 // GO TO PRODUCTS PAGE
+                this.$q.localStorage.set('lastSearch', {
+                    category: category.id
+                })
                 if (this.$route.name !== ROUTES.PRODUCTS) {
                     this.$router.push('products')
                 }
@@ -98,6 +115,10 @@ export default {
 
         selectSubCategory (subCategory) {
             this.$store.commit('products/changeSubCategory', subCategory.id)
+            this.$q.localStorage.set('lastSearch', {
+                subCategory: subCategory.id
+            })
+            this.checkPlatform()
             if (this.$route.name !== ROUTES.PRODUCTS) {
                 this.$router.push('products')
             }
@@ -105,8 +126,17 @@ export default {
 
         searchProducts () {
             this.$store.commit('products/changeSearch', this.searchQuery)
+            this.$q.localStorage.set('lastSearch', {
+                searchQuery: this.searchQuery
+            })
+            this.checkPlatform()
             if (this.$route.name !== ROUTES.PRODUCTS) {
                 this.$router.push('products')
+            }
+        },
+        checkPlatform () {
+            if (this.$q.platform.is.mobile) {
+                this.$emit('closeDrawer')
             }
         }
     }

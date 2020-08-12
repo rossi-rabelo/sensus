@@ -1,5 +1,5 @@
 <template>
-    <q-layout view="lHh lpR lFf">
+    <q-layout view="lHh LpR lFf">
         <!-- HEADER -->
         <q-header bordered class="bg-primary text-white" height-hint="98">
             <q-toolbar>
@@ -17,7 +17,13 @@
                     </div>
 
                     <!-- LOGO -->
-                    <div class="col-auto" style="padding-top: 0.5%; cursor: pointer" @click="goToHome">
+                    <!-- DESKTOP -->
+                    <div class="col-auto desktop-only" style="padding-top: 0.5%; cursor: pointer" @click="goToHome">
+                        <img src="../statics/logo-header.png" height="80%" alt="">
+                    </div>
+
+                    <!-- MOBILE -->
+                    <div class="col-auto mobile-only" style="margin-top: 5px; cursor: pointer" @click="goToHome">
                         <img src="../statics/logo-header.png" height="80%" alt="">
                     </div>
 
@@ -34,7 +40,7 @@
                 <div class="sideDrawer no-scroll fit">
                     <div class="rgbaFilter scroll fit" style="overflow: hidden">
                         <q-scroll-area class="fit">
-                            <my-categories />
+                            <my-categories @closeDrawer="closeDrawer"/>
                         </q-scroll-area>
                     </div>
                 </div>

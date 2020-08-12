@@ -5,9 +5,10 @@
             :data="productsList"
             :columns="columns"
             row-key="id"
-            :pagination.sync="pagination"
+            :pagination="pagination"
             virtual-scroll
-            grid>
+            grid
+        >
 
             <template v-slot:item="product">
                 <my-card-product
@@ -15,12 +16,9 @@
                     @selectProduct="showDialogProduct"
                 />
             </template>
-            <!-- <template v-slot:item="props">
-                Aqui vai o card
-            </template> -->
             <!-- PAGINATION OF CLIENTS -->
-            <template v-slot:bottom="props">
-                <my-pagination :pagination.sync="pagination" :configuration="props"/>
+            <template v-slot:bottom>
+                <my-pagination :pagination.sync="pagination" @changePage="changePage" :numberOfPages="numberOfPages"/>
             </template>
         </q-table>
         <!-- <my-pagination :pagination="pagination"/> -->
@@ -50,6 +48,26 @@ export default {
 
     created () {
         EventBus.$on('update_product', this.getProducts)
+
+        if (this.$q.localStorage.getItem('lastSearch') && (!this.$store.state.products.categoryId || !this.$store.state.products.subCategoryId || !this.$store.state.products.search)) {
+            const lastSearch = this.$q.localStorage.getItem('lastSearch')
+            if (lastSearch.category) {
+                this.$store.commit('products/changeCategory', lastSearch.category)
+            }
+            if (lastSearch.subCategory) {
+                this.$store.commit('products/changeSubCategory', lastSearch.subCategory)
+            }
+            if (lastSearch.searchQuery) {
+                this.$store.commit('products/changeSearch', lastSearch.searchQuery)
+            }
+            this.getProducts()
+        }
+    },
+
+    computed: {
+        numberOfPages () {
+            return Math.ceil((this.$store.state.products.count) / 12)
+        }
     },
 
     beforeDestroy () {
@@ -58,16 +76,7 @@ export default {
 
     data () {
         return {
-            // card: {
-            //     images: ['https://http2.mlstatic.com/gel-excitante-feminino-gozzy-soft-love-60-ml-D_NQ_NP_672736-MLB26777614962_022018-F.jpg', 'https://http2.mlstatic.com/gel-excitante-feminino-gozzy-soft-love-60-ml-D_NQ_NP_880241-MLB26777614961_022018-F.jpg'],
-            //     name: 'Gozzy, óleo corporal para massagem',
-            //     description: 'Essa é uma descrição teste',
-            //     price: {
-            //         money: '10.99',
-            //         card: '12.99'
-            //     }
-            // },
-            selectedProduct: {},
+            selectedProduct: null,
             dialogProductModel: false,
             pagination: {
                 rowsPerPage: 12,
@@ -132,7 +141,7 @@ export default {
                         list.push(product)
                     })
                     this.productsList = list
-                    this.$store.commit('products/changeCount', count)
+                    this.$store.commit('products/changeCount', count.value)
                 })
                 .finally(() => {
                     this.$q.loading.hide()
@@ -141,7 +150,7 @@ export default {
 
         showDialogProduct (product) {
             this.$q.loading.show({
-                delay: 400 // ms
+                delay: 400
             })
             this.$axios.get('product', {
                 params: {
@@ -149,29 +158,15 @@ export default {
                 }
             }).then((response) => {
                 this.selectedProduct = response.data.product
-                this.selectedProduct.myImages = []
-                this.selectedProduct.images.forEach((image) => {
-                    this.$axios.get('/images', {
-                        params: {
-                            id: image.id,
-                            product: this.selectedProduct.id,
-                            size: 512
-                        }
-                    }).then((response) => {
-                        this.selectedProduct.myImages.push({
-                            src: response.data,
-                            id: image.id
-                        })
-                        if (!this.selectedProduct.carousel) {
-                            this.carousel = image.id
-                        }
-                        this.dialogProductModel = true
-                    })
-                })
-                console.log(this.selectedProduct)
+                this.dialogProductModel = true
             }).finally(() => {
                 this.$q.loading.hide()
             })
+        },
+
+        changePage (page) {
+            this.$store.commit('products/changePage', page)
+            this.getProducts()
         }
     }
 }

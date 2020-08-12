@@ -19,6 +19,11 @@ export default {
   mounted () {
     this.show = true
   },
+  created () {
+    if (this.$q.localStorage.getItem('lastSearch')) {
+      this.$q.localStorage.remove('lastSearch')
+    }
+  },
   data () {
     return {
       show: false
