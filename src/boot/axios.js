@@ -8,7 +8,7 @@ import { MESSAGES } from 'src/enumerators/alerts.js'
 
 export default async ({ router, Vue }) => {
     const axiosInstance = axios.create({
-        baseURL: 'http://31.220.59.204:5000/client/',
+        baseURL: 'https://api.lojasensus.com.br/client/',
         crossdomain: true
     })
 

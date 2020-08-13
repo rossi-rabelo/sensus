@@ -4,7 +4,7 @@
             <q-card-section v-ripple class="q-py-xs q-px-sm">
                 <!-- PROMOTION -->
                 <div class="absolute-top" style="top: -18px" v-if="product.promotion">
-                    <q-badge color="secondary" align="top" class="text-style-0 no-border-radius shadow-2" >Promoção</q-badge>
+                    <q-badge color="accent" align="top" class="text-style-0 no-border-radius shadow-2" >Promoção</q-badge>
                 </div>
                 <div class="row full-width items-center">
                     <div class="col-grow">

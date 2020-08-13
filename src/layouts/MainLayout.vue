@@ -48,7 +48,7 @@
         </q-drawer>
 
         <!-- CONTENT -->
-        <q-page-container @click="closeDrawer">
+        <q-page-container>
             <router-view/>
         </q-page-container>
 
