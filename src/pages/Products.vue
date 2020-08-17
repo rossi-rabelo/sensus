@@ -119,6 +119,7 @@ export default {
     methods: {
         // AXIOS METHODS
         getProducts () {
+            this.paginationBottomSlot.page = parseInt(this.$store.state.products.page)
             this.$q.loading.show({
                 delay: 400 // ms
             })
@@ -173,7 +174,8 @@ export default {
 
         showDialogProduct (product, routeForce = false) {
             if (!routeForce) {
-                this.$router.replace({ name: this.routeName, params: this.$route.params, query: { productId: product.id } })
+                // this.$router.replace({ name: this.routeName, params: this.$route.params, query: { productId: product.id } })
+                this.setQueryStringParameter('productId', product.id)
             }
             this.searchForProduct(product)
         },
@@ -195,7 +197,7 @@ export default {
         },
 
         changeURL () {
-            this.$router.replace({ name: this.routeName, params: this.$route.params })
+            this.addHashToLocation()
         },
 
         changePage (page) {
@@ -205,6 +207,18 @@ export default {
             params.page = page
             this.$router.replace({ name: this.routeName, params: params })
             this.getProducts()
+        },
+        addHashToLocation (params) {
+            history.pushState(
+                {},
+                null,
+                this.$route.path
+            )
+        },
+        setQueryStringParameter (name, value) {
+            const params = new URLSearchParams(window.location.search)
+            params.set(name, value)
+            window.history.replaceState({}, '', decodeURIComponent(`${this.$route.path}?${params}`))
         }
     }
 }
