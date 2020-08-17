@@ -14,20 +14,20 @@ export function changeEPP (state, epp) {
     state.epp = epp
 }
 
-export function changeCategory (state, category) {
+export function changeCategory (state, categoryId) {
     state.page = 1
 
-    state.categoryId = category.id
+    state.categoryId = categoryId
     state.subCategoryId = null
     state.search = null
     EventBus.$emit('update_product')
 }
 
-export function changeSubCategory (state, subCategory) {
+export function changeSubCategory (state, subCategoryId) {
     state.page = 1
 
     state.categoryId = null
-    state.subCategoryId = subCategory.id
+    state.subCategoryId = subCategoryId
     state.search = null
     EventBus.$emit('update_product')
 }

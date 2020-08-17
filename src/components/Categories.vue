@@ -99,7 +99,7 @@ export default {
             // EMIT IF ONLY IS ROOT CATEGORY
             if (force || (!category.features || (category.features && category.features.length === 0))) {
                 // ENVIAR VUEX
-                this.$store.commit('products/changeCategory', category)
+                this.$store.commit('products/changeCategory', category.id)
                 this.checkPlatform()
                 // GO TO PRODUCTS PAGE
                 // this.$router.replace(`products/category=${category.id}`)
@@ -108,7 +108,7 @@ export default {
         },
 
         selectSubCategory (subCategory) {
-            this.$store.commit('products/changeSubCategory', subCategory)
+            this.$store.commit('products/changeSubCategory', subCategory.id)
             this.checkPlatform()
             // this.$router.replace(`products/subCategory=${subCategory.id}`)
             this.$router.replace({ name: 'subcategory', params: { id: subCategory.id, page: 1 } })
