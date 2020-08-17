@@ -212,13 +212,13 @@ export default {
             history.pushState(
                 {},
                 null,
-                this.$route.path
+                `#${this.$route.path}`
             )
         },
         setQueryStringParameter (name, value) {
             const params = new URLSearchParams(window.location.search)
             params.set(name, value)
-            window.history.replaceState({}, '', decodeURIComponent(`${this.$route.path}?${params}`))
+            window.history.replaceState({}, '', decodeURIComponent(`#${this.$route.path}?${params}`))
         }
     }
 }
