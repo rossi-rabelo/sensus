@@ -59,31 +59,39 @@
                     <!-- WHATSAPP -->
                     <div class="col-auto q-px-sm desktop-only">
                         <q-icon name="fab fa-whatsapp" color="primary" size="25px"/>
-                        <span class="text-bold text-primary text-subtitle2">
-                            (34) 9 9680-6896
-                        </span>
+                        <a :href="socialMedia.WHATSAPP" target="blank" style="text-decoration: none">
+                            <span class="text-bold text-primary text-subtitle2">
+                                (34) 9 9680-6896
+                            </span>
+                        </a>
                     </div>
 
                     <div class="col-6 q-px-sm mobile-only">
                         <q-icon name="fab fa-whatsapp" color="primary" size="20px"/>
-                        <span class="text-bold text-primary text-caption">
-                            (34) 9 9680-6896
-                        </span>
+                        <a :href="socialMedia.WHATSAPP" target="blank" style="text-decoration: none">
+                            <span class="text-bold text-primary text-caption">
+                                (34) 9 9680-6896
+                            </span>
+                        </a>
                     </div>
 
                     <!-- INSTAGRAM -->
                     <div class="col-auto q-px-sm desktop-only">
                         <q-icon name="fab fa-instagram" color="primary" size="25px"/>
-                        <span class="text-bold text-primary text-subtitle1">
-                            @sensus.official
-                        </span>
+                        <a :href="socialMedia.INSTAGRAM" target="blank" style="text-decoration: none">
+                            <span class="text-bold text-primary text-subtitle1">
+                                @sensus.official
+                            </span>
+                        </a>
                     </div>
 
                     <div class="col-6 q-px-sm mobile-only">
                         <q-icon name="fab fa-instagram" color="primary" size="20px"/>
-                        <span class="text-bold text-primary text-caption">
-                            @sensus.official
-                        </span>
+                        <a :href="socialMedia.INSTAGRAM" target="blank" style="text-decoration: none">
+                            <span class="text-bold text-primary text-caption">
+                                @sensus.official
+                            </span>
+                        </a>
                     </div>
                 </q-toolbar-title>
             </q-toolbar>
@@ -96,6 +104,8 @@
 
 // ENUMERATORS
 import { ROUTES } from 'src/enumerators/routes'
+
+import { SOCIALMEDIAS } from 'src/enumerators/socialMedia.js'
 
 // COMPONENTS
 import categories from 'components/Categories'
@@ -131,7 +141,8 @@ export default {
 
     data () {
         return {
-            left: false
+            left: false,
+            socialMedia: SOCIALMEDIAS
         }
     },
 

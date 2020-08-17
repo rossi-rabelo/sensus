@@ -1,6 +1,5 @@
 <template>
     <q-page padding class="bg-grey-2">
-        <!-- <my-card-product :product="card" @selectProduct="showDialogProduct" /> -->
         <q-table
             :data="productsList"
             :columns="columns"
@@ -18,11 +17,11 @@
             </template>
             <!-- PAGINATION OF CLIENTS -->
             <template v-slot:bottom>
-                <my-pagination :pagination.sync="pagination" @changePage="changePage" :numberOfPages="numberOfPages"/>
+                <my-pagination :pagination.sync="paginationBottomSlot" @changePage="changePage" :numberOfPages="numberOfPages"/>
             </template>
         </q-table>
         <!-- <my-pagination :pagination="pagination"/> -->
-        <my-dialog-product v-model="dialogProductModel" :product="selectedProduct" />
+        <my-dialog-product v-model="dialogProductModel" :product="selectedProduct" @hide="changeURL"/>
     </q-page>
 </template>
 
@@ -37,6 +36,9 @@ import CardProduct from 'components/CardProduct'
 import DialogProduct from 'components/DialogProduct'
 import MyPagination from 'components/MyPagination'
 
+// ENUMERATORS
+import { ROUTES } from 'src/enumerators/routes'
+
 export default {
     name: 'PageProducts',
 
@@ -48,25 +50,42 @@ export default {
 
     created () {
         EventBus.$on('update_product', this.getProducts)
-
-        if (this.$q.localStorage.getItem('lastSearch') && (!this.$store.state.products.categoryId || !this.$store.state.products.subCategoryId || !this.$store.state.products.search)) {
-            const lastSearch = this.$q.localStorage.getItem('lastSearch')
-            if (lastSearch.category) {
-                this.$store.commit('products/changeCategory', lastSearch.category)
+        if (this.routeName && this.routeParams) {
+            if (this.routeName === ROUTES.CATEGORY) {
+                if (this.routeParams) {
+                    this.$store.commit('products/changeCategory', this.routeParams.id)
+                }
             }
-            if (lastSearch.subCategory) {
-                this.$store.commit('products/changeSubCategory', lastSearch.subCategory)
+            if (this.routeName === ROUTES.SUBCATEGORY) {
+                if (this.routeParams) {
+                    this.$store.commit('products/changeSubCategory', this.routeParams.id)
+                }
             }
-            if (lastSearch.searchQuery) {
-                this.$store.commit('products/changeSearch', lastSearch.searchQuery)
+            if (this.routeName === ROUTES.SEARCH) {
+                if (this.routeParams) {
+                    this.$store.commit('products/changeSearch', this.routeParams.query)
+                }
+            }
+            if (this.routeParams && this.routeParams.page) {
+                this.$store.commit('products/changePage', this.routeParams.page)
+                this.paginationBottomSlot.page = parseInt(this.routeParams.page)
             }
             this.getProducts()
+        }
+        if (this.$route.query && this.$route.query.productId) {
+            this.showDialogProduct({ id: this.$route.query.productId }, true)
         }
     },
 
     computed: {
         numberOfPages () {
             return Math.ceil((this.$store.state.products.count) / 12)
+        },
+        routeName () {
+            return this.$route.name
+        },
+        routeParams () {
+            return this.$route.params
         }
     },
 
@@ -79,6 +98,10 @@ export default {
             selectedProduct: null,
             dialogProductModel: false,
             pagination: {
+                rowsPerPage: 12,
+                page: 1
+            },
+            paginationBottomSlot: {
                 rowsPerPage: 12,
                 page: 1
             },
@@ -148,7 +171,14 @@ export default {
                 })
         },
 
-        showDialogProduct (product) {
+        showDialogProduct (product, routeForce = false) {
+            if (!routeForce) {
+                this.$router.replace({ name: this.routeName, params: this.$route.params, query: { productId: product.id } })
+            }
+            this.searchForProduct(product)
+        },
+
+        searchForProduct (product) {
             this.$q.loading.show({
                 delay: 400
             })
@@ -164,8 +194,16 @@ export default {
             })
         },
 
+        changeURL () {
+            this.$router.replace({ name: this.routeName, params: this.$route.params })
+        },
+
         changePage (page) {
             this.$store.commit('products/changePage', page)
+            let params = {}
+            params = this.routeParams
+            params.page = page
+            this.$router.replace({ name: this.routeName, params: params })
             this.getProducts()
         }
     }

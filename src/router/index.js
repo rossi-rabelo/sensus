@@ -15,6 +15,12 @@ Vue.use(VueRouter)
  */
 
 export default function (/* { store, ssrContext } */) {
+  const originalReplace = VueRouter.prototype.replace
+  VueRouter.prototype.replace = function replace (location) {
+    return originalReplace.call(this, location).catch(err => {
+      if (err.name !== 'NavigationDuplicated') throw err
+    })
+  }
   const Router = new VueRouter({
     scrollBehavior: () => ({ x: 0, y: 0 }),
     routes,

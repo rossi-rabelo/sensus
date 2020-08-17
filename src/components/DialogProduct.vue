@@ -74,7 +74,9 @@
                     <q-icon name="fab fa-whatsapp" size="20px"/>
                   </div>
                   <div class="q-pl-sm text-bold col-8 text-black" style="display: flex; align-items: center">
-                    (34) 99680-6896
+                    <a :href="SOCIALMEDIAS.WHATSAPP" target="blank" style="text-decoration: none; color: black">
+                      (34) 99680-6896
+                    </a>
                   </div>
                 </div>
                 <div class="row full-width justify-center q-mt-sm">
@@ -82,7 +84,9 @@
                     <q-icon name="fab fa-instagram" size="20px"/>
                   </div>
                   <div class="q-pl-sm text-bold col-8 text-black" style="display: flex; align-items: center">
-                    @sensus.official
+                    <a :href="SOCIALMEDIAS.INSTAGRAM" target="blank" style="text-decoration: none; color: black">
+                      @sensus.official
+                    </a>
                   </div>
                 </div>
               </div>
@@ -95,6 +99,8 @@
 </template>
 
 <script>
+import { SOCIALMEDIAS } from '../enumerators/socialMedia.js'
+
 export default {
   name: 'DialogProduct',
   props: {
@@ -120,7 +126,8 @@ export default {
       model: false,
       slide: 1,
       images: [],
-      carousel: null
+      carousel: null,
+      SOCIALMEDIAS
     }
   },
   methods: {
@@ -128,6 +135,7 @@ export default {
       this.$emit('input', value)
     },
     closePop () {
+      this.$emit('hide')
       this.changeDialog(false)
       this.images = []
       this.carousel = null

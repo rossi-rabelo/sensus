@@ -5,6 +5,7 @@
             <q-input
                 rounded
                 outlined
+                 v-on:keyup.enter="searchProducts"
                 class="full-width"
                 dense
                 bg-color="white"
@@ -74,9 +75,6 @@
 <script>
 /* eslint indent: [2, 4] */
 
-// ENUMERATORS
-import { ROUTES } from 'src/enumerators/routes'
-
 export default {
     name: 'Categories',
 
@@ -101,38 +99,26 @@ export default {
             // EMIT IF ONLY IS ROOT CATEGORY
             if (force || (!category.features || (category.features && category.features.length === 0))) {
                 // ENVIAR VUEX
-                this.$store.commit('products/changeCategory', category.id)
+                this.$store.commit('products/changeCategory', category)
                 this.checkPlatform()
                 // GO TO PRODUCTS PAGE
-                this.$q.localStorage.set('lastSearch', {
-                    category: category.id
-                })
-                if (this.$route.name !== ROUTES.PRODUCTS) {
-                    this.$router.push('products')
-                }
+                // this.$router.replace(`products/category=${category.id}`)
+                this.$router.replace({ name: 'category', params: { id: category.id, page: 1 } })
             }
         },
 
         selectSubCategory (subCategory) {
-            this.$store.commit('products/changeSubCategory', subCategory.id)
-            this.$q.localStorage.set('lastSearch', {
-                subCategory: subCategory.id
-            })
+            this.$store.commit('products/changeSubCategory', subCategory)
             this.checkPlatform()
-            if (this.$route.name !== ROUTES.PRODUCTS) {
-                this.$router.push('products')
-            }
+            // this.$router.replace(`products/subCategory=${subCategory.id}`)
+            this.$router.replace({ name: 'subcategory', params: { id: subCategory.id, page: 1 } })
         },
 
         searchProducts () {
             this.$store.commit('products/changeSearch', this.searchQuery)
-            this.$q.localStorage.set('lastSearch', {
-                searchQuery: this.searchQuery
-            })
             this.checkPlatform()
-            if (this.$route.name !== ROUTES.PRODUCTS) {
-                this.$router.push('products')
-            }
+            // this.$router.replace(`products/search=${this.searchQuery}`)
+            this.$router.replace({ name: 'search', params: { query: this.searchQuery, page: 1 } })
         },
         checkPlatform () {
             if (this.$q.platform.is.mobile) {

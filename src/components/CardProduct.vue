@@ -67,12 +67,12 @@
             </q-carousel>
             <q-card-section>
                 <div class="row full-width justify-between">
-                    <div class="col row justify-center">
-                        <span class="text-positive text-bold q-mr-xs">Dinheiro:</span>
+                    <div class="col row text-bold justify-center">
+                        <span class="text-positive q-mr-xs">Dinheiro:</span>
                         {{ applyMoneyMask(product.price_money, false) }}
                     </div>
-                    <div class="col row justify-center">
-                        <span class="text-positive text-bold q-mr-xs">Cartão:</span>
+                    <div class="col row text-bold justify-center">
+                        <span class="text-positive q-mr-xs">Cartão:</span>
                         {{ applyMoneyMask(product.price_card, false) }}
                     </div>
                 </div>
