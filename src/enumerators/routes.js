@@ -4,6 +4,6 @@ export const ROUTES = {
     PRODUCTS: 'products',
     HOME: 'home',
     CATEGORY: 'category',
-    SUBCATEGORY: 'subCategory',
+    SUBCATEGORY: 'subcategory',
     SEARCH: 'search'
 }
