@@ -1,6 +1,6 @@
 <template>
   <div class="col-xs-12 col-sm-6 col-md-4 q-my-md q-px-sm">
-        <q-card class="no-border-radius">
+        <q-card class="no-border-radius" @click="selectProduct()" style="cursor: pointer">
             <q-card-section v-ripple class="q-py-xs q-px-sm">
                 <!-- PROMOTION -->
                 <div class="absolute-top" style="top: -18px" v-if="product.promotion">
@@ -41,7 +41,7 @@
                     :key="image.id"
                     :name="image.id"
                     class="no-wrap no-scroll q-pa-none" >
-                    <q-img :src="image.src" contain style="height: 200px; cursor: pointer" @click="selectProduct()"/>
+                    <q-img :src="image.src" contain style="height: 200px; cursor: pointer"/>
                 </q-carousel-slide>
 
                 <template v-slot:control>

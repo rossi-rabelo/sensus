@@ -22,7 +22,8 @@
                     :key="image.id"
                     :name="image.id"
                     class="no-wrap no-scroll q-pa-none" >
-                    <q-img :src="image.src" contain style="height: 200px;"/>
+                    <q-img :src="image.src" class="mobile-only" contain style="height: 200px;"/>
+                    <zoom :src="image.src" class="desktop-only" :src-large="image.src" spanClass="squareImage" style="width: 200px; height: 200px"/>
                 </q-carousel-slide>
 
                 <template v-slot:control>
@@ -99,10 +100,15 @@
 </template>
 
 <script>
+import zoom from './MagnifyingGlass'
+
 import { SOCIALMEDIAS } from '../enumerators/socialMedia.js'
 
 export default {
   name: 'DialogProduct',
+  components: {
+    zoom
+  },
   props: {
     value: {
       type: Boolean,
@@ -164,5 +170,7 @@ export default {
 </script>
 
 <style lang="stylus">
-
+.squareImage
+  width 200px !important
+  height 200px !important
 </style>
