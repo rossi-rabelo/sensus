@@ -23,7 +23,9 @@
                     :name="image.id"
                     class="no-wrap no-scroll q-pa-none" >
                     <q-img :src="image.src" class="mobile-only" contain style="height: 200px;"/>
-                    <zoom :src="image.src" class="desktop-only" :src-large="image.src" spanClass="squareImage" style="width: 200px; height: 200px"/>
+                    <div class="img-magnifier-container" @mouseover="magnify(1.3)" @mouseleave="hideGlass" style="height: 200px; width: 200px;">
+                      <img ref="image" :src="image.src" id="img" style="height: 200px; width: 200px; object-fit: contain">
+                    </div>
                 </q-carousel-slide>
 
                 <template v-slot:control>
@@ -100,15 +102,11 @@
 </template>
 
 <script>
-import zoom from './MagnifyingGlass'
-
+/* eslint-disable */
 import { SOCIALMEDIAS } from '../enumerators/socialMedia.js'
 
 export default {
   name: 'DialogProduct',
-  components: {
-    zoom
-  },
   props: {
     value: {
       type: Boolean,
@@ -133,7 +131,13 @@ export default {
       slide: 1,
       images: [],
       carousel: null,
-      SOCIALMEDIAS
+      SOCIALMEDIAS,
+      img: null,
+      glass: null,
+      w: null,
+      h: null,
+      bw: null,
+      zoom: null
     }
   },
   methods: {
@@ -164,6 +168,67 @@ export default {
           }
         })
       })
+    },
+    magnify(zoom) {
+      this.zoom = zoom
+      this.img = document.getElementById('img');
+      /*create magnifier glass:*/
+      if (!document.getElementById('glass')) {
+        this.glass = document.createElement("DIV");
+        this.glass.setAttribute("class", "img-magnifier-glass");
+        this.glass.setAttribute('id', 'glass');
+      }
+      this.glass.setAttribute('style', 'opacity: 1')
+      /*insert magnifier glass:*/
+      this.img.parentElement.insertBefore(this.glass, this.img);
+      /*set background properties for the magnifier glass:*/
+      this.glass.style.backgroundImage = "url('" + this.img.src + "')";
+      this.glass.style.backgroundRepeat = "no-repeat";
+      this.glass.style.backgroundSize = (this.img.width * zoom) + "px " + (this.img.height * zoom) + "px";
+      this.bw = 3;
+      this.w = this.glass.offsetWidth / 2;
+      this.h = this.glass.offsetHeight / 2;
+      /*execute a function when someone moves the magnifier glass over the image:*/
+      this.glass.addEventListener("mousemove", this.moveMagnifier);
+      this.img.addEventListener("mousemove", this.moveMagnifier);
+      /*and also for touch screens:*/
+      this.glass.addEventListener("touchmove", this.moveMagnifier);
+      this.img.addEventListener("touchmove", this.moveMagnifier);
+    },
+    moveMagnifier(e) {
+      var pos, x, y;
+      /*prevent any other actions that may occur when moving over the image*/
+      e.preventDefault();
+      /*get the cursor's x and y positions:*/
+      pos = this.getCursorPos(e);
+      x = pos.x;
+      y = pos.y;
+      /*prevent the magnifier glass from being positioned outside the image:*/
+      if (x > img.width - (this.w / this.zoom)) {x = img.width - (this.w / this.zoom);}
+      if (x < this.w / this.zoom) {x = this.w / this.zoom;}
+      if (y > img.height - (this.h / this.zoom)) {y = img.height - (this.h / this.zoom);}
+      if (y < this.h / this.zoom) {y = this.h / this.zoom;}
+      /*set the position of the magnifier glass:*/
+      this.glass.style.left = (x - this.w) + "px";
+      this.glass.style.top = (y - this.h) + "px";
+      /*display what the magnifier glass "sees":*/
+      this.glass.style.backgroundPosition = "-" + ((x * this.zoom) - this.w + this.bw) + "px -" + ((y * this.zoom) - this.h + this.bw) + "px";
+    },
+    getCursorPos(e) {
+      var a, x = 0, y = 0;
+      e = e || window.event;
+      /*get the x and y positions of the image:*/
+      a = img.getBoundingClientRect();
+      /*calculate the cursor's x and y coordinates, relative to the image:*/
+      x = e.pageX - a.left;
+      y = e.pageY - a.top;
+      /*consider any page scrolling:*/
+      x = x - window.pageXOffset;
+      y = y - window.pageYOffset;
+      return {x : x, y : y};
+    },
+    hideGlass () {
+      this.glass.setAttribute('style', 'opacity: 0')
     }
   }
 }
@@ -173,4 +238,23 @@ export default {
 .squareImage
   width 200px !important
   height 200px !important
+
+* {box-sizing: border-box;}
+
+.img-magnifier-container
+  position relative
+
+</style>
+
+<style lang="scss">
+  .img-magnifier-glass {
+    position: absolute;
+    opacity: 0;
+    border: 2px solid #000;
+    border-radius: 50%;
+    cursor: none;
+    /*Set the size of the magnifier glass:*/
+    width: 100px;
+    height: 100px;
+  }
 </style>
