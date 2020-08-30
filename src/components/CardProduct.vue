@@ -1,7 +1,7 @@
 <template>
   <div class="col-xs-12 col-sm-6 col-md-4 q-my-md q-px-sm">
-        <q-card class="no-border-radius" @click="selectProduct()" style="cursor: pointer">
-            <q-card-section v-ripple class="q-py-xs q-px-sm">
+        <q-card class="no-border-radius" style="cursor: pointer">
+            <q-card-section @click="selectProduct()" v-ripple class="q-py-xs q-px-sm">
                 <!-- PROMOTION -->
                 <div class="absolute-top" style="top: -18px" v-if="product.promotion">
                     <q-badge color="accent" align="top" class="text-style-0 no-border-radius shadow-2" >Promoção</q-badge>
@@ -41,7 +41,7 @@
                     :key="image.id"
                     :name="image.id"
                     class="no-wrap no-scroll q-pa-none" >
-                    <q-img :src="image.src" contain style="height: 200px; cursor: pointer"/>
+                    <q-img @click="selectProduct()" :src="image.src" contain style="height: 200px; cursor: pointer"/>
                 </q-carousel-slide>
 
                 <template v-slot:control>
