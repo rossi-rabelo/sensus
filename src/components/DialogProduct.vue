@@ -62,7 +62,8 @@
               </div>
               <div class="row full-width">
                 <q-separator class="q-my-sm"/>
-                <div class="row full-width">
+                <!-- Preço normal (sem promoção) -->
+                <div v-if="!product.promotion" class="row full-width">
                   <div class="col">
                     <div class="row justify-center text-positive text-bold text-subtitle1">R$ {{ product.price_money ? product.price_money : '' }}</div>
                     <div class="row justify-center">Dinheiro</div>
@@ -70,6 +71,20 @@
                   <div class="col">
                     <div class="row justify-center text-positive text-bold text-subtitle1">R$ {{ product.price_card ? product.price_card : '' }}</div>
                     <div class="row justify-center">Cartão</div>
+                  </div>
+                </div>
+                <!-- Preço Promocional -->
+                <div v-else class="row full-width justify-start" style="position: relative">
+                  <div>
+                    <span>De: </span>
+                    <div style="display: inline" class="row justify-center text-grey-13 overline text-bold text-subtitle2">R$ {{ product.old_price_card ? product.old_price_card : '' }}</div>
+                  </div>
+                  <div class="q-mt-sm">
+                    <span>Por: </span>
+                    <div style="display: inline" class="row justify-center text-primary text-bold text-h5">R$ {{ product.price_card ? product.price_card : '' }}</div>
+                  </div>
+                  <div v-if="product && product.discount" class="discount-dialog">
+                    -{{ product.discount }}%
                   </div>
                 </div>
                 <div class="row full-width justify-center q-mt-lg">
@@ -243,6 +258,22 @@ export default {
 
 .img-magnifier-container
   position relative
+
+.discount-dialog
+  color white
+  background-image url('../statics/stamp.png')
+  background-size contain
+  background-repeat no-repeat
+  background-position center
+  width fit-content
+  position absolute
+  font-weight bold
+  padding 12%
+  top 0%
+  left 73%
+  z-index 1
+  border-radius 50%
+  transform: rotate(-18deg);
 
 </style>
 

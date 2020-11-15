@@ -4,9 +4,9 @@
             <q-card-section @click="selectProduct()" v-ripple class="q-py-xs q-px-sm">
                 <!-- PROMOTION -->
                 <div class="absolute-top" style="top: -18px" v-if="product.promotion">
-                    <q-badge color="accent" align="top" class="text-style-0 no-border-radius shadow-2" >Promoção</q-badge>
+                    <q-badge align="top" class="custom-badge text-style-0 no-border-radius shadow-2" >Promoção</q-badge>
                 </div>
-                <div class="row full-width items-center">
+                <div class="row full-width items-center" style="position: relative">
                     <div class="col-grow">
                         <!-- NAME -->
                         <div class="full-width text-style-3">
@@ -16,6 +16,9 @@
                         <!--  PURVEYOR AND CODE -->
                         <div class="full-width text-style-1 text-grey-9">
                             {{ product.purveyor + ' - ' + product.purveyor_code }}
+                        </div>
+                        <div v-if="product && product.discount" class="discount">
+                            -{{ product.discount }}%
                         </div>
                     </div>
 
@@ -66,16 +69,34 @@
                 </template>
             </q-carousel>
             <q-card-section>
-                <div class="row full-width justify-between">
+                <div v-if="!product.promotion" class="row full-width justify-between">
                     <div class="col row text-bold justify-center">
                         <span class="text-positive q-mr-xs">Dinheiro:</span>
-                        {{ applyMoneyMask(product.price_money, false) }}
+                        <span>
+                            {{ applyMoneyMask(product.price_money, false) }}
+                        </span>
                     </div>
                     <div class="col row text-bold justify-center">
                         <span class="text-positive q-mr-xs">Cartão:</span>
-                        {{ applyMoneyMask(product.price_card, false) }}
+                        <span>
+                            {{ applyMoneyMask(product.price_card, false) }}
+                        </span>
                     </div>
                 </div>
+                <div v-else class="row full-width justify-between">
+                  <div class="col row text-bold justify-center">
+                      <span class="align-text-center text-positive q-mr-xs">De:</span>
+                      <span class="align-text-center text-grey-13 overline">
+                          {{ applyMoneyMask(product.old_price_card, false) }}
+                      </span>
+                  </div>
+                  <div class="col row text-bold justify-center">
+                      <span class="align-text-center text-positive q-mr-xs">Por:</span>
+                      <span class="align-text-center text-h6 text-primary">
+                          {{ applyMoneyMask(product.price_card, false) }}
+                      </span>
+                  </div>
+              </div>
             </q-card-section>
         </q-card>
     </div>
@@ -109,4 +130,37 @@ export default {
 .my-card
   width 100%
   max-width 250px
+
+.discount
+  color white
+  background-image url('../statics/stamp.png')
+  background-size contain
+  background-repeat no-repeat
+  background-position center
+  width fit-content
+  position absolute
+  font-weight bold
+  padding 7%
+  top 45%
+  left 83%
+  z-index 1
+  border-radius 50%
+  transform: rotate(-18deg);
+
+.overline
+  text-decoration line-through
+
+.align-text-center
+  display flex
+  flex-flow column
+  justify-content center
+
+.custom-badge
+    background-color #f8bb20
+    color #10050f
+    font-weight bolder
+</style>
+
+<style lang="stylus" scoped>
+
 </style>

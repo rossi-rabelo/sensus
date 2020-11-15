@@ -1,28 +1,34 @@
 <template>
-    <q-page padding class="bg-grey-2">
-        <q-table
-            :data="productsList"
-            :columns="columns"
-            row-key="id"
-            :pagination="pagination"
-            virtual-scroll
-            grid
-        >
+    <div>
+        <my-banner
+            :imagePath="getBanner()"
+            :activate="true"
+        />
+        <q-page padding class="page">
+            <q-table
+                :data="productsList"
+                :columns="columns"
+                row-key="id"
+                :pagination="pagination"
+                virtual-scroll
+                grid
+            >
 
-            <template v-slot:item="product">
-                <my-card-product
-                    :product="product.row"
-                    @selectProduct="showDialogProduct"
-                />
-            </template>
-            <!-- PAGINATION OF CLIENTS -->
-            <template v-slot:bottom>
-                <my-pagination :pagination.sync="paginationBottomSlot" @changePage="changePage" :numberOfPages="numberOfPages"/>
-            </template>
-        </q-table>
-        <!-- <my-pagination :pagination="pagination"/> -->
-        <my-dialog-product v-model="dialogProductModel" :product="selectedProduct" @hide="changeURL"/>
-    </q-page>
+                <template v-slot:item="product">
+                    <my-card-product
+                        :product="product.row"
+                        @selectProduct="showDialogProduct"
+                    />
+                </template>
+                <!-- PAGINATION OF CLIENTS -->
+                <template v-slot:bottom>
+                    <my-pagination :pagination.sync="paginationBottomSlot" @changePage="changePage" :numberOfPages="numberOfPages"/>
+                </template>
+            </q-table>
+            <!-- <my-pagination :pagination="pagination"/> -->
+            <my-dialog-product v-model="dialogProductModel" :product="selectedProduct" @hide="changeURL"/>
+        </q-page>
+    </div>
 </template>
 
 <script>
@@ -35,6 +41,7 @@ import { EventBus } from 'src/functions/event-bus.js'
 import CardProduct from 'components/CardProduct'
 import DialogProduct from 'components/DialogProduct'
 import MyPagination from 'components/MyPagination'
+import Banner from 'components/Banner'
 
 // ENUMERATORS
 import { ROUTES } from 'src/enumerators/routes'
@@ -45,7 +52,8 @@ export default {
     components: {
         'my-card-product': CardProduct,
         'my-dialog-product': DialogProduct,
-        'my-pagination': MyPagination
+        'my-pagination': MyPagination,
+        'my-banner': Banner
     },
 
     created () {
@@ -117,13 +125,17 @@ export default {
     },
 
     methods: {
+        // BANNER METHODS
+        getBanner () {
+            return 'banners/generic/desktop/black_friday_generic.png'
+        },
         // AXIOS METHODS
         getProducts () {
             this.paginationBottomSlot.page = parseInt(this.$store.state.products.page)
             this.$q.loading.show({
                 delay: 400 // ms
             })
-            this.$axios.get('products', {
+            this.$axios.get('products/black_friday', {
                 params: {
                     page: this.$store.state.products.page,
                     epp: this.$store.state.products.epp,
@@ -184,7 +196,7 @@ export default {
             this.$q.loading.show({
                 delay: 400
             })
-            this.$axios.get('product', {
+            this.$axios.get('product/black_friday', {
                 params: {
                     id: product.id
                 }
@@ -227,4 +239,8 @@ export default {
 <style lang="stylus">
     .customMargin
         margin 0px 50px 0px 50px
+
+    .page
+        background-color #10050f !important
+        overflow-x hidden
 </style>

@@ -1,5 +1,5 @@
 <template>
-    <q-page-sticky expand position="bottom">
+    <q-page-sticky expand position="bottom" class="custom-sticky">
         <q-toolbar class="row desktop-only items-center full-width justify-between q-px-md bg-grey-3">
             <span style="width: 7%"></span>
             <q-pagination v-model="pagination.page" @input="changePage" :max="numberOfPages" :max-pages="6" :direction-links="true" :boundary-links="true" color="primary" size="15px"/>
@@ -33,3 +33,8 @@ export default {
     }
 }
 </script>
+
+<style lang="stylus">
+.custom-sticky
+  z-index 1000
+</style>
