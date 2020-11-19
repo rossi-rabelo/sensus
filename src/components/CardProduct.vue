@@ -1,9 +1,9 @@
 <template>
-  <div class="col-xs-12 col-sm-6 col-md-4 q-my-md q-px-sm">
-        <q-card class="no-border-radius" style="cursor: pointer">
+  <div class="my-card col-xs-12 col-sm-6 col-md-4 q-my-md q-px-sm">
+        <q-card class="no-border-radius full-height" style="cursor: pointer">
             <q-card-section @click="selectProduct()" v-ripple class="q-py-xs q-px-sm">
                 <!-- PROMOTION -->
-                <div class="absolute-top" style="top: -18px" v-if="product.promotion">
+                <div class="absolute-top" style="top: -18px" v-if="product.promotion && !(product.old_price_card === product.price_card)">
                     <q-badge align="top" class="custom-badge text-style-0 no-border-radius shadow-2" >Promoção</q-badge>
                 </div>
                 <div class="row full-width items-center" style="position: relative">
@@ -43,7 +43,7 @@
                     v-for="image in product.myImages"
                     :key="image.id"
                     :name="image.id"
-                    class="no-wrap no-scroll q-pa-none" >
+                    class="no-wrap no-scroll q-pa-none">
                     <q-img @click="selectProduct()" :src="image.src" contain style="height: 200px; cursor: pointer"/>
                 </q-carousel-slide>
 
@@ -69,7 +69,7 @@
                 </template>
             </q-carousel>
             <q-card-section>
-                <div v-if="!product.promotion" class="row full-width justify-between">
+                <div v-if="!product.promotion || (product.old_price_card === product.price_card)" class="row full-width justify-between">
                     <div class="col row text-bold justify-center">
                         <span class="text-positive q-mr-xs">Dinheiro:</span>
                         <span>

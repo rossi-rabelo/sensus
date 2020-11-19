@@ -1,5 +1,5 @@
 <template>
-  <div v-if="activate" class="full-width">
+  <div v-if="activate" class="full-width full-height bg-red">
     <q-img
       :src="imagePath"
     />

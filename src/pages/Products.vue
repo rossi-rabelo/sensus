@@ -3,6 +3,12 @@
         <my-banner
             :imagePath="getBanner()"
             :activate="true"
+            class="desktop-only"
+        />
+        <my-banner
+            :imagePath="getBannerMobile()"
+            :activate="true"
+            class="mobile-only"
         />
         <q-page padding class="page">
             <q-table
@@ -41,10 +47,10 @@ import { EventBus } from 'src/functions/event-bus.js'
 import CardProduct from 'components/CardProduct'
 import DialogProduct from 'components/DialogProduct'
 import MyPagination from 'components/MyPagination'
-import Banner from 'components/Banner'
 
 // ENUMERATORS
 import { ROUTES } from 'src/enumerators/routes'
+import Banner from 'src/components/Banner.vue'
 
 export default {
     name: 'PageProducts',
@@ -128,6 +134,9 @@ export default {
         // BANNER METHODS
         getBanner () {
             return 'banners/generic/desktop/black_friday_generic.png'
+        },
+        getBannerMobile () {
+            return 'banners/generic/mobile/black_friday_generic_mobile.png'
         },
         // AXIOS METHODS
         getProducts () {
