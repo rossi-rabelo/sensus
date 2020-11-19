@@ -1,5 +1,5 @@
 <template>
-    <div>
+    <div style="background-color: #10050f">
         <my-banner
             :imagePath="getBanner()"
             :activate="true"

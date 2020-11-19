@@ -48,7 +48,7 @@
         </q-drawer>
 
         <!-- CONTENT -->
-        <q-page-container>
+        <q-page-container style="background-color: #10050f">
             <router-view/>
         </q-page-container>
 
