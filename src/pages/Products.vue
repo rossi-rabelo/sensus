@@ -1,6 +1,6 @@
 <template>
     <div style="background-color: #10050f">
-        <my-banner
+        <!-- <my-banner
             :imagePath="getBanner()"
             :activate="true"
             class="desktop-only"
@@ -9,7 +9,9 @@
             :imagePath="getBannerMobile()"
             :activate="true"
             class="mobile-only"
-        />
+        /> -->
+        <img class="full-width desktop-only" src="../statics/generic/desktop/black_friday_generic.png" alt="">
+        <img class="full-width mobile-only" src="../statics/generic/mobile/black_friday_generic_mobile.png" alt="">
         <q-page padding class="page">
             <q-table
                 :data="productsList"
@@ -50,7 +52,7 @@ import MyPagination from 'components/MyPagination'
 
 // ENUMERATORS
 import { ROUTES } from 'src/enumerators/routes'
-import Banner from 'src/components/Banner.vue'
+// import Banner from 'src/components/Banner.vue'
 
 export default {
     name: 'PageProducts',
@@ -58,8 +60,7 @@ export default {
     components: {
         'my-card-product': CardProduct,
         'my-dialog-product': DialogProduct,
-        'my-pagination': MyPagination,
-        'my-banner': Banner
+        'my-pagination': MyPagination
     },
 
     created () {
