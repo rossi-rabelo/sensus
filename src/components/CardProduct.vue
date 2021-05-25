@@ -84,7 +84,7 @@
                     </div>
                 </div>
                 <div v-else class="row full-width justify-between">
-                  <div class="col row text-bold justify-center">
+                  <div v-if="product.old_price_card" class="col row text-bold justify-center">
                       <span class="align-text-center text-positive q-mr-xs">De:</span>
                       <span class="align-text-center text-grey-13 overline">
                           {{ applyMoneyMask(product.old_price_card, false) }}

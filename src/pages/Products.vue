@@ -1,5 +1,5 @@
 <template>
-    <div style="background-color: #10050f">
+    <div style="background-color: #f5f3f3">
         <!-- <my-banner
             :imagePath="getBanner()"
             :activate="true"
@@ -10,8 +10,8 @@
             :activate="true"
             class="mobile-only"
         /> -->
-        <img class="full-width desktop-only" src="../statics/generic/desktop/black_friday_generic.png" alt="">
-        <img class="full-width mobile-only" src="../statics/generic/mobile/black_friday_generic_mobile.png" alt="">
+        <!-- <img class="full-width desktop-only" src="../statics/generic/desktop/black_friday_generic.png" alt=""> -->
+        <!-- <img class="full-width mobile-only" src="../statics/generic/mobile/black_friday_generic_mobile.png" alt=""> -->
         <q-page padding class="page">
             <q-table
                 :data="productsList"
@@ -145,7 +145,7 @@ export default {
             this.$q.loading.show({
                 delay: 400 // ms
             })
-            this.$axios.get('products/black_friday', {
+            this.$axios.get('products', {
                 params: {
                     page: this.$store.state.products.page,
                     epp: this.$store.state.products.epp,
@@ -206,7 +206,7 @@ export default {
             this.$q.loading.show({
                 delay: 400
             })
-            this.$axios.get('product/black_friday', {
+            this.$axios.get('product', {
                 params: {
                     id: product.id
                 }
@@ -251,6 +251,6 @@ export default {
         margin 0px 50px 0px 50px
 
     .page
-        background-color #10050f !important
+        background-color #f5f3f3 !important
         overflow-x hidden
 </style>
