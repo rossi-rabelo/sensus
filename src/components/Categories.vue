@@ -134,7 +134,7 @@ export default {
         display none
 
     .item-category
-        background-color rgba(87,0,87,.93)
+        background-color #3e3e3ef5
 
     .expandIcon
         color white

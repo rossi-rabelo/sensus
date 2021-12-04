@@ -87,26 +87,6 @@
                     -{{ product.discount }}%
                   </div>
                 </div>
-                <div class="row full-width justify-center q-mt-lg">
-                  <div class="col-2">
-                    <q-icon name="fab fa-whatsapp" size="20px"/>
-                  </div>
-                  <div class="q-pl-sm text-bold col-8 text-black" style="display: flex; align-items: center">
-                    <a :href="SOCIALMEDIAS.WHATSAPP" target="blank" style="text-decoration: none; color: black">
-                      (34) 99680-6896
-                    </a>
-                  </div>
-                </div>
-                <div class="row full-width justify-center q-mt-sm">
-                  <div class="col-2">
-                    <q-icon name="fab fa-instagram" size="20px"/>
-                  </div>
-                  <div class="q-pl-sm text-bold col-8 text-black" style="display: flex; align-items: center">
-                    <a :href="SOCIALMEDIAS.INSTAGRAM" target="blank" style="text-decoration: none; color: black">
-                      @sensus.official
-                    </a>
-                  </div>
-                </div>
               </div>
             </div>
           </div>

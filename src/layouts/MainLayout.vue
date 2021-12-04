@@ -19,12 +19,12 @@
                     <!-- LOGO -->
                     <!-- DESKTOP -->
                     <div class="col-auto desktop-only" style="padding-top: 0.5%; cursor: pointer" @click="goToHome">
-                        <img src="../statics/logo-header.png" height="80%" alt="">
+                        <img class="img-header-desk" src="../statics/logo-header.png" alt="">
                     </div>
 
                     <!-- MOBILE -->
                     <div class="col-auto mobile-only" style="margin-top: 5px; cursor: pointer" @click="goToHome">
-                        <img src="../statics/logo-header.png" height="80%" alt="">
+                        <img class="img-header-mobile" src="../statics/logo-header.png" height="80%" alt="">
                     </div>
 
                     <!-- PADDING RIGHT -->
@@ -36,9 +36,9 @@
 
         <!-- DRAWER -->
         <q-drawer v-model="left" side="left">
-            <div class="bg-yellow fit">
+            <div class="bg-primary fit">
                 <div class="sideDrawer no-scroll fit">
-                    <div class="rgbaFilter scroll fit" style="overflow: hidden">
+                    <div class="scroll fit drawer" style="overflow: hidden">
                         <q-scroll-area class="fit">
                             <my-categories @closeDrawer="closeDrawer"/>
                         </q-scroll-area>
@@ -51,51 +51,6 @@
         <q-page-container style="background-color: #10050f">
             <router-view/>
         </q-page-container>
-
-        <!-- FOOTER -->
-        <q-footer class="bg-grey-5 text-grey-10">
-            <q-toolbar>
-                <q-toolbar-title class="row full-width items-center justify-center">
-                    <!-- WHATSAPP -->
-                    <div class="col-auto q-px-sm desktop-only">
-                        <q-icon name="fab fa-whatsapp" color="primary" size="25px"/>
-                        <a :href="socialMedia.WHATSAPP" target="blank" style="text-decoration: none">
-                            <span class="text-bold text-primary text-subtitle2">
-                                (34) 9 9680-6896
-                            </span>
-                        </a>
-                    </div>
-
-                    <div class="col-6 q-px-sm mobile-only">
-                        <q-icon name="fab fa-whatsapp" color="primary" size="20px"/>
-                        <a :href="socialMedia.WHATSAPP" target="blank" style="text-decoration: none">
-                            <span class="text-bold text-primary text-caption">
-                                (34) 9 9680-6896
-                            </span>
-                        </a>
-                    </div>
-
-                    <!-- INSTAGRAM -->
-                    <div class="col-auto q-px-sm desktop-only">
-                        <q-icon name="fab fa-instagram" color="primary" size="25px"/>
-                        <a :href="socialMedia.INSTAGRAM" target="blank" style="text-decoration: none">
-                            <span class="text-bold text-primary text-subtitle1">
-                                @sensus.official
-                            </span>
-                        </a>
-                    </div>
-
-                    <div class="col-6 q-px-sm mobile-only">
-                        <q-icon name="fab fa-instagram" color="primary" size="20px"/>
-                        <a :href="socialMedia.INSTAGRAM" target="blank" style="text-decoration: none">
-                            <span class="text-bold text-primary text-caption">
-                                @sensus.official
-                            </span>
-                        </a>
-                    </div>
-                </q-toolbar-title>
-            </q-toolbar>
-        </q-footer>
     </q-layout>
 </template>
 
@@ -171,4 +126,13 @@ export default {
 
     .rgbaFilter
         background-color rgba(0,0,0,.4)
+
+    .drawer
+        border-right 1px solid white
+
+    .img-header-desk
+        max-height 50px
+
+    .img-header-mobile
+        max-height 40px
 </style>
